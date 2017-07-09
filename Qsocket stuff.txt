@@ -1,0 +1,17 @@
+udpSocket = new QUdpSocket(this);
+ udpSocket->bind(45454, QUdpSocket::ShareAddress); 
+connect(udpSocket, SIGNAL(readyRead()), this, SLOT(processPendingDatagrams())); 
+connect(quitButton, SIGNAL(clicked()), this, SLOT(close())); 
+
+while (udpSocket->hasPendingDatagrams()) { 
+QByteArray datagram; datagram.resize(udpSocket->pendingDatagramSize());
+ udpSocket->readDatagram(datagram.data(), datagram.size()); 
+
+
+
+groupAddress = QHostAddress("239.255.43.21"); 
+udpSocket = new QUdpSocket(this); 
+udpSocket->setSocketOption(QAbstractSocket::MulticastTtlOption, newTtl); 
+QByteArray datagram = "Multicast message " + QByteArray::number(messageNo);
+ udpSocket->writeDatagram(datagram.data(), datagram.size(), groupAddress, 45454); 
+
